@@ -11,7 +11,30 @@ export const MoviesReducer = (state: any, action: any) => {
       return {
         ...state,
         watchlist: state.watchlist.filter(
-          (movie: MovieInterface) => movie.id !== action.payload
+          (movie: MovieInterface) => movie.id !== Number(action.payload)
+        ),
+      };
+    case "ADD_MOVIE_TO_WATCHED":
+      return {
+        ...state,
+        watchlist: state.watchlist.filter(
+          (movie: MovieInterface) => movie.id !== Number(action.payload.id)
+        ),
+        watched: [action.payload, ...state.watched],
+      };
+    case "MOVE_TO_WATCHLIST":
+      return {
+        ...state,
+        watched: state.watched.filter(
+          (movie: MovieInterface) => movie.id !== Number(action.payload.id)
+        ),
+        watchlist: [action.payload, ...state.watchlist],
+      };
+    case "REMOVE_MOVIE_FROM_WATCHED":
+      return {
+        ...state,
+        watched: state.watched.filter(
+          (movie: MovieInterface) => movie.id !== Number(action.payload)
         ),
       };
     default:

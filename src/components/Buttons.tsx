@@ -30,4 +30,16 @@ const Button: FC<ButtonProps> = ({ children, onClick, disabled }) => {
     </button>
   );
 };
+
+export const ControlButton: FC<ButtonProps> = ({ children, onClick }) => {
+  return (
+    <button
+      className="text-white text-xl p-1 transition-all hover:text-secondary hover:cursor-pointer"
+      onClick={onClick}
+    >
+      {children}
+    </button>
+  );
+};
+
 export default Button;

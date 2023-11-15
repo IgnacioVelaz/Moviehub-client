@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import Container from "./Container";
-import Button from "./Button";
+import Button from "./Buttons";
 
 const Header = () => {
   return (
@@ -12,15 +12,15 @@ const Header = () => {
           </div>
           <ul className="flex items-center gap-5">
             <li>
-              <Link to="/mymovies">My Movies</Link>
+              <Link to="/watchlist">Watchlist</Link>
+            </li>
+            <li>
+              <Link to="/watched">Watched</Link>
             </li>
             <li>
               <Link to="/add">
                 <Button>Add Movie</Button>
               </Link>
-            </li>
-            <li>
-              <Link to="/">Logout</Link>
             </li>
           </ul>
         </div>

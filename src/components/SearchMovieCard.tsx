@@ -1,6 +1,6 @@
 import { FC, useContext } from "react";
 import { MovieInterface } from "../interfaces/MovieInterface";
-import Button from "./Button";
+import Button from "./Buttons";
 import { MoviesContext } from "../contexts/MoviesContext";
 
 type SearchMovieCardProps = {
@@ -8,13 +8,21 @@ type SearchMovieCardProps = {
 };
 
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
-  const { addMovieToWatchList, watchlist } = useContext(MoviesContext);
+  const { addMovieToWatchList, addMovieToWatched, watchlist, watched } =
+    useContext(MoviesContext);
 
-  let alreadySavedMovie = watchlist.find(
+  const alreadySavedMovie = watchlist.find(
     (movieFromWatchlist) => movieFromWatchlist.id === movie.id
   );
 
-  const disabledWatchlistButton = alreadySavedMovie ? true : false;
+  const alreadyWatchedMovie = watched.find(
+    (watchedMovie) => watchedMovie.id === movie.id
+  );
+
+  const disabledWatchlistButton =
+    alreadySavedMovie || alreadyWatchedMovie ? true : false;
+
+  const disabledWatchedButton = alreadyWatchedMovie ? true : false;
 
   return (
     <div className="flex mb-5">
@@ -45,6 +53,15 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
             disabled={disabledWatchlistButton}
           >
             Add to Watchlist
+          </Button>
+
+          <Button
+            onClick={() => {
+              addMovieToWatched(movie);
+            }}
+            disabled={disabledWatchedButton}
+          >
+            Add to Watched
           </Button>
         </div>
       </div>

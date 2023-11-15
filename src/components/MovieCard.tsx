@@ -8,7 +8,6 @@ type MovieCardProps = {
 };
 
 const MovieCard: FC<MovieCardProps> = ({ movie, type }) => {
-  console.log(type);
   return (
     <div className="w-full rounded-md overflow-hidden relative group">
       <div className="absolute top-0 left-0 w-full h-full border-2 border-solid border-transparent transition-all group-hover:border-secondary"></div>
