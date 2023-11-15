@@ -1,9 +1,12 @@
-import { FC, ReactNode } from "react";
+import { FC, MouseEvent, ReactNode } from "react";
 
 type ButtonProps = {
   children: ReactNode;
+  onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  disabled?: boolean;
 };
-const Button: FC<ButtonProps> = ({ children }) => {
+
+const Button: FC<ButtonProps> = ({ children, onClick, disabled }) => {
   return (
     <button
       className="py-2
@@ -18,8 +21,10 @@ const Button: FC<ButtonProps> = ({ children }) => {
      hover:bg-[#1aa762]
      cursor-pointer
      disabled:pointer-events-none
-     disable:opacity-50
+     disabled:opacity-50
      "
+      onClick={onClick}
+      disabled={disabled}
     >
       {children}
     </button>
