@@ -9,7 +9,7 @@ const RouterPaths: FC = () => {
     <BrowserRouter>
       <Routes>
         <Route element={<MainLayout />}>
-          <Route path="/" element={<MyMovies />} />
+          <Route path="/mymovies" element={<MyMovies />} />
           <Route path="/add" element={<AddMovie />} />
         </Route>
       </Routes>

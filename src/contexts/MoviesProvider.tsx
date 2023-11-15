@@ -14,12 +14,17 @@ export const MoviesProvider: FC<MoviesProviderProps> = ({ children }) => {
     dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
   };
 
+  const removeMovieFromWatchList = (id: string) => {
+    dispatch({ type: "REMOVE_MOVIE_FROM_WATCHLIST", payload: id });
+  };
+
   return (
     <MoviesContext.Provider
       value={{
         watchlist: state.watchlist,
         watched: state.watched,
         addMovieToWatchList: addMovieToWatchList,
+        removeMovieFromWatchList: removeMovieFromWatchList,
       }}
     >
       {children}
