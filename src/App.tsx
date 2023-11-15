@@ -1,7 +1,10 @@
+import RouterPaths from "./routes/RouterPaths.routes";
+import "./app.t.css";
+
 function App() {
   return (
     <>
-      <h1>App</h1>
+      <RouterPaths />
     </>
   );
 }
