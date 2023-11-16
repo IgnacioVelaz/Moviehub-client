@@ -2,9 +2,24 @@ import { useContext } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
 import Container from "../components/Container";
 import MovieCard from "../components/MovieCard";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const MyMovies = () => {
   const { watchlist } = useContext(MoviesContext);
+  const { getAccessTokenSilently } = useAuth0();
+  const { VITE_API_URL: API_URL } = import.meta.env;
+
+  const getUser = async (getToken: any) => {
+    const token = await getToken();
+
+    const res = await fetch(`${API_URL}/users/655659b56a95b0fc2e00cff8`, {
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    });
+    const data = await res.json();
+    console.log(data);
+  };
 
   return (
     <div className="p-8">
@@ -24,6 +39,9 @@ const MyMovies = () => {
           </h2>
         )}
       </Container>
+      <button onClick={() => getUser(getAccessTokenSilently)}>
+        Get one user
+      </button>
     </div>
   );
 };
