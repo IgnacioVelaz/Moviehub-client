@@ -1,8 +1,13 @@
 import { Link } from "react-router-dom";
 import Container from "./Container";
 import Button from "./Buttons";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const Header = () => {
+  const { logout, user, isLoading } = useAuth0();
+
+  if (isLoading) return <p>Loading..</p>;
+  console.log(user);
   return (
     <header className="bg-primary text-white">
       <Container>
@@ -22,6 +27,10 @@ const Header = () => {
                 <Button>Add Movie</Button>
               </Link>
             </li>
+            <li>
+              <button onClick={() => logout()}>Logout</button>
+            </li>
+            <div>{isLoading ? <p>Loading...</p> : user?.name}</div>
           </ul>
         </div>
       </Container>
