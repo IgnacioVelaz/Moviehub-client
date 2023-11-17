@@ -37,6 +37,11 @@ export const MoviesReducer = (state: any, action: any) => {
           (movie: MovieInterface) => movie.id !== Number(action.payload)
         ),
       };
+    case "ADD_USER_MOVIES_TO_WATCHLIST":
+      return {
+        ...state,
+        watchlist: [...action.payload],
+      };
     default:
       return state;
   }

@@ -2,14 +2,30 @@ import { FC, useContext } from "react";
 import { MovieInterface } from "../interfaces/MovieInterface";
 import Button from "./Buttons";
 import { MoviesContext } from "../contexts/MoviesContext";
+import postMovie from "../api/postMovie";
+import { useAuth0 } from "@auth0/auth0-react";
+import { UserContext } from "../contexts/UserContext";
 
 type SearchMovieCardProps = {
   movie: MovieInterface;
 };
 
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
+  const { getAccessTokenSilently } = useAuth0();
+  const { user } = useContext(UserContext);
+
   const { addMovieToWatchList, addMovieToWatched, watchlist, watched } =
     useContext(MoviesContext);
+
+  const addMovie = (movie: MovieInterface) => {
+    addMovieToWatchList(movie);
+    addMovieToDataBase(movie);
+  };
+
+  const addMovieToDataBase = (movie: MovieInterface) => {
+    console.log(movie);
+    postMovie(user.id, movie, getAccessTokenSilently);
+  };
 
   const alreadySavedMovie = watchlist.find(
     (movieFromWatchlist) => movieFromWatchlist.id === movie.id
@@ -48,6 +64,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
         <div className="controls">
           <Button
             onClick={() => {
+              addMovie(movie);
               addMovieToWatchList(movie);
             }}
             disabled={disabledWatchlistButton}

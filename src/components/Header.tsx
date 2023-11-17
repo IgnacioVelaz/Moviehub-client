@@ -2,9 +2,33 @@ import { Link } from "react-router-dom";
 import Container from "./Container";
 import Button from "./Buttons";
 import { useAuth0 } from "@auth0/auth0-react";
+import { useContext, useEffect } from "react";
+import { getUserByEmail } from "../api/getUser";
+import { UserContext } from "../contexts/UserContext";
+import { MoviesContext } from "../contexts/MoviesContext";
 
 const Header = () => {
-  const { logout, user, isLoading } = useAuth0();
+  const { logout, user, isLoading, isAuthenticated } = useAuth0();
+  const { setIsLogged, setUser } = useContext(UserContext);
+  const { addUserMoviesToWatchList } = useContext(MoviesContext);
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      const getUserData = async () => {
+        if (user && user.email && user.name) {
+          console.log("User authenticated:", user);
+          const userFromBack = await getUserByEmail(user.email, user.name);
+          if (userFromBack) {
+            console.log("user from back:", userFromBack);
+            setIsLogged(true);
+            setUser(userFromBack);
+            addUserMoviesToWatchList(userFromBack.movies);
+          }
+        }
+      };
+      getUserData();
+    }
+  }, [isAuthenticated]);
 
   if (isLoading) return <p>Loading..</p>;
   console.log(user);

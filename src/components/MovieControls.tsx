@@ -1,13 +1,13 @@
 import { FaEye } from "react-icons/fa";
 import { FaEyeSlash } from "react-icons/fa6";
 import { IoCloseSharp } from "react-icons/io5";
-import { MovieInterface } from "../interfaces/MovieInterface";
 import { FC, useContext } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
 import { ControlButton } from "./Buttons";
+import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 type MovieControlsProps = {
-  movie: MovieInterface;
+  movie: MovieInterfaceDB;
   type: "watchlist" | "watched";
 };
 

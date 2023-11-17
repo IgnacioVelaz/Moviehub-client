@@ -1,7 +1,8 @@
-import { FC, ReactNode, useEffect, useReducer } from "react";
+import { FC, ReactNode, useReducer } from "react";
 import { MoviesReducer } from "./MoviesReducer";
 import { MoviesContext, initialState } from "./MoviesContext";
 import { MovieInterface } from "../interfaces/MovieInterface";
+import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 type MoviesProviderProps = {
   children: ReactNode;
@@ -10,13 +11,12 @@ type MoviesProviderProps = {
 export const MoviesProvider: FC<MoviesProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(MoviesReducer, initialState);
 
-  useEffect(() => {
-    localStorage.setItem("watchlist", JSON.stringify(state.watchlist));
-    localStorage.setItem("watched", JSON.stringify(state.watched));
-  }, [state]);
-
   const addMovieToWatchList = (movie: MovieInterface) => {
     dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
+  };
+
+  const addUserMoviesToWatchList = (userMovies: MovieInterfaceDB[]) => {
+    dispatch({ type: "ADD_USER_MOVIES_TO_WATCHLIST", payload: userMovies });
   };
 
   const removeMovieFromWatchList = (id: string) => {
@@ -42,6 +42,7 @@ export const MoviesProvider: FC<MoviesProviderProps> = ({ children }) => {
         watched: state.watched,
         addMovieToWatchList: addMovieToWatchList,
         removeMovieFromWatchList: removeMovieFromWatchList,
+        addUserMoviesToWatchList: addUserMoviesToWatchList,
         addMovieToWatched: addMovieToWatched,
         moveToWatchList: moveToWatchList,
         removeMovieFromWatched: removeMovieFromWatched,
