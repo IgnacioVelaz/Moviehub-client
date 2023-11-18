@@ -7,6 +7,7 @@ import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 import deleteMovieById from "../api/deleteMovie";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MoviesContext2 } from "../contexts/MoviesContext";
+import editMovieType from "../api/updateMovie";
 
 type MovieControlsProps = {
   movie: MovieInterfaceDB;
@@ -27,7 +28,14 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
     <div className="absolute bottom-5 inline left-1/2 -translate-x-1/2 bg-black/50 rounded-md p-1 border border-white/60 opacity-0 transition-all group-hover:opacity-100">
       {type == "watchlist" && (
         <>
-          <ControlButton onClick={() => console.log("added to watched")}>
+          <ControlButton
+            onClick={() => {
+              editMovieType(movie.id, "watched", getAccessTokenSilently);
+              setMovies((prevMovies) => {
+                return prevMovies.filter((item) => item.id !== movie.id);
+              });
+            }}
+          >
             <FaEye />
           </ControlButton>
 
@@ -46,7 +54,14 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
 
       {type === "watched" && (
         <>
-          <ControlButton onClick={() => console.log("moved to watchlist")}>
+          <ControlButton
+            onClick={() => {
+              editMovieType(movie.id, "watchlist", getAccessTokenSilently);
+              setWatched((prevWatched) => {
+                return prevWatched.filter((item) => item.id !== movie.id);
+              });
+            }}
+          >
             <FaEyeSlash />
           </ControlButton>
 

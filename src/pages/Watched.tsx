@@ -39,7 +39,7 @@ const MyMovies = () => {
             {watched.map((movie) => (
               <MovieCard
                 movie={movie}
-                type={"watchlist"}
+                type={"watched"}
                 key={movie.id}
                 userId={user.id}
               />
