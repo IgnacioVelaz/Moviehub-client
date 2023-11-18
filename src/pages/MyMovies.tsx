@@ -19,8 +19,10 @@ const MyMovies = () => {
           user.id,
           getAccessTokenSilently
         );
-        console.log("RESPONSE", response);
-        setMovies(response.data.movies);
+        const watchListMovies = response.data.movies.filter(
+          (movie) => movie.type === "watchlist"
+        );
+        setMovies(watchListMovies);
       };
       getMovies();
     }

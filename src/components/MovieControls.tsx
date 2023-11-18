@@ -18,6 +18,7 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
   console.log("MOVIE:", movie);
   const { getAccessTokenSilently } = useAuth0();
   const { setMovies } = useContext(MoviesContext2);
+  const { setWatched } = useContext(MoviesContext2);
 
   console.log(movie, type);
 
@@ -49,7 +50,15 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
             <FaEyeSlash />
           </ControlButton>
 
-          <ControlButton onClick={() => console.log("deleted")}>
+          <ControlButton
+            onClick={() => {
+              deleteMovieById(movie.id, getAccessTokenSilently, userId);
+
+              setWatched((prevWatched) => {
+                return prevWatched.filter((item) => item.id !== movie.id);
+              });
+            }}
+          >
             <IoCloseSharp />
           </ControlButton>
         </>

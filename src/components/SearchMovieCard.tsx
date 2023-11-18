@@ -52,6 +52,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 tmdb_genresIds: movie.genre_ids,
                 poster_image: `https://themoviedb.org/t/p/w200${movie.poster_path}`,
                 userId: user.id,
+                type: "watchlist",
               };
               postMovie(user.id, formattedMovie, getAccessTokenSilently);
               setMovies((prevMovies) => [...prevMovies, formattedMovie]);
@@ -63,9 +64,19 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
 
           <Button
             onClick={() => {
-              console.log("Movie added to watched movies!");
+              const formattedMovie = {
+                tmdb_id: movie.id,
+                name: movie.title,
+                score: movie.vote_average,
+                tmdb_genresIds: movie.genre_ids,
+                poster_image: `https://themoviedb.org/t/p/w200${movie.poster_path}`,
+                userId: user.id,
+                type: "watched",
+              };
+              postMovie(user.id, formattedMovie, getAccessTokenSilently);
+              setMovies((prevMovies) => [...prevMovies, formattedMovie]);
             }}
-            disabled={true}
+            disabled={disabledWatchlistButton}
           >
             Add to Watched
           </Button>

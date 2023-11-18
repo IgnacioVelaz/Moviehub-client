@@ -10,11 +10,15 @@ import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 type MoviesContextType = {
   movies: MovieInterfaceDB[];
   setMovies: Dispatch<SetStateAction<MovieInterfaceDB[]>>;
+  watched: MovieInterfaceDB[];
+  setWatched: Dispatch<SetStateAction<MovieInterfaceDB[]>>;
 };
 
 const initialState = {
   movies: [],
+  watched: [],
   setMovies: () => {},
+  setWatched: () => {},
 };
 
 export const MoviesContext2 = createContext<MoviesContextType>(initialState);
@@ -27,9 +31,10 @@ export const MovieContextProvider = ({
   children,
 }: MoviesContextProviderProps) => {
   const [movies, setMovies] = useState([]);
+  const [watched, setWatched] = useState([]);
 
   return (
-    <MoviesContext2.Provider value={{ movies, setMovies }}>
+    <MoviesContext2.Provider value={{ movies, setMovies, watched, setWatched }}>
       {children}
     </MoviesContext2.Provider>
   );
