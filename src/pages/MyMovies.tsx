@@ -1,13 +1,13 @@
 import { useContext, useEffect } from "react";
-import { MoviesContext } from "../contexts/MoviesContext";
 import Container from "../components/Container";
 import MovieCard from "../components/MovieCard";
 import { UserContext } from "../contexts/UserContext";
 import getMoviesByUserId from "../api/getMovies";
 import { useAuth0 } from "@auth0/auth0-react";
+import { MoviesContext2 } from "../contexts/MoviesContext";
 
 const MyMovies = () => {
-  const { watchlist, addUserMoviesToWatchList } = useContext(MoviesContext);
+  const { movies, setMovies } = useContext(MoviesContext2);
   const { user } = useContext(UserContext);
   const { getAccessTokenSilently } = useAuth0();
   console.log("USER", user);
@@ -20,7 +20,7 @@ const MyMovies = () => {
           getAccessTokenSilently
         );
         console.log("RESPONSE", response);
-        addUserMoviesToWatchList(response.data.movies);
+        setMovies(response.data.movies);
       };
       getMovies();
     }
@@ -32,9 +32,9 @@ const MyMovies = () => {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-primary">My Movies</h1>
         </div>
-        {watchlist && watchlist.length > 0 ? (
+        {movies && movies.length > 0 ? (
           <div className="grid grid-cols-3 gap-8 md:grid-cols-4 lg:grid-cols-5">
-            {watchlist.map((movie) => (
+            {movies.map((movie) => (
               <MovieCard
                 movie={movie}
                 type={"watchlist"}

@@ -1,11 +1,9 @@
 import { useContext } from "react";
 import Container from "../components/Container";
 import MovieCard from "../components/MovieCard";
-import { MoviesContext } from "../contexts/MoviesContext";
 
 const Watched = () => {
-  const { watched } = useContext(MoviesContext);
-
+  const watched = [];
   return (
     <div className="p-8">
       <Container>

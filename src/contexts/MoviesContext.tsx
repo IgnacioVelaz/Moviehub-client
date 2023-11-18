@@ -1,27 +1,36 @@
-import { createContext } from "react";
-import { MovieInterface } from "../interfaces/MovieInterface";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  createContext,
+  useState,
+} from "react";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
-export type MoviesContextType = {
-  watchlist: MovieInterface[];
-  watched: MovieInterface[];
-  addMovieToWatchList: (movie: MovieInterface) => void;
-  addMovieToWatched: (movie: MovieInterfaceDB) => void;
-  removeMovieFromWatchList: (id: string) => void;
-  moveToWatchList: (movie: MovieInterfaceDB) => void;
-  removeMovieFromWatched: (id: string) => void;
-  addUserMoviesToWatchList: (userMovies: MovieInterfaceDB[]) => void;
+type MoviesContextType = {
+  movies: MovieInterfaceDB[];
+  setMovies: Dispatch<SetStateAction<MovieInterfaceDB[]>>;
 };
 
-export const initialState = {
-  watchlist: [],
-  watched: [],
-  addMovieToWatchList: () => {},
-  addMovieToWatched: () => {},
-  removeMovieFromWatchList: () => {},
-  moveToWatchList: () => {},
-  removeMovieFromWatched: () => {},
-  addUserMoviesToWatchList: () => {},
+const initialState = {
+  movies: [],
+  setMovies: () => {},
 };
 
-export const MoviesContext = createContext<MoviesContextType>(initialState);
+export const MoviesContext2 = createContext<MoviesContextType>(initialState);
+
+type MoviesContextProviderProps = {
+  children: ReactNode;
+};
+
+export const MovieContextProvider = ({
+  children,
+}: MoviesContextProviderProps) => {
+  const [movies, setMovies] = useState([]);
+
+  return (
+    <MoviesContext2.Provider value={{ movies, setMovies }}>
+      {children}
+    </MoviesContext2.Provider>
+  );
+};

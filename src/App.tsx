@@ -5,6 +5,7 @@ import { Auth0Provider } from "@auth0/auth0-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import "./app.t.css";
 import { UserContextProvider } from "./contexts/UserContext";
+import { MovieContextProvider } from "./contexts/MoviesContext";
 
 const {
   VITE_AUTH0_DOMAIN: domain,
@@ -27,11 +28,11 @@ function App() {
           audience: audience,
         }}
       >
-        <MoviesProvider>
+        <MovieContextProvider>
           <UserContextProvider>
             <RouterPaths />
           </UserContextProvider>
-        </MoviesProvider>
+        </MovieContextProvider>
       </Auth0Provider>
     </QueryClientProvider>
   );

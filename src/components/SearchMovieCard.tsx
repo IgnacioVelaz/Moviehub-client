@@ -1,10 +1,10 @@
 import { FC, useContext } from "react";
 import { MovieInterface } from "../interfaces/MovieInterface";
 import Button from "./Buttons";
-import { MoviesContext } from "../contexts/MoviesContext";
 import postMovie from "../api/postMovie";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../contexts/UserContext";
+import { MoviesContext2 } from "../contexts/MoviesContext";
 
 type SearchMovieCardProps = {
   movie: MovieInterface;
@@ -13,21 +13,13 @@ type SearchMovieCardProps = {
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { user } = useContext(UserContext);
+  const { movies, setMovies } = useContext(MoviesContext2);
 
-  const { addMovieToWatchList, watchlist, watched } = useContext(MoviesContext);
-
-  const alreadySavedMovie = watchlist.find(
-    (movieFromWatchlist) => movieFromWatchlist.id === movie.id
+  const alreadySavedMovie = movies.find(
+    (movieFromWatchlist) => movieFromWatchlist.tmdb_id === movie.id
   );
 
-  const alreadyWatchedMovie = watched.find(
-    (watchedMovie) => watchedMovie.id === movie.id
-  );
-
-  const disabledWatchlistButton =
-    alreadySavedMovie || alreadyWatchedMovie ? true : false;
-
-  const disabledWatchedButton = alreadyWatchedMovie ? true : false;
+  const disabledWatchlistButton = alreadySavedMovie ? true : false;
 
   return (
     <div className="flex mb-5">
@@ -62,6 +54,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 userId: user.id,
               };
               postMovie(user.id, formattedMovie, getAccessTokenSilently);
+              setMovies((prevMovies) => [...prevMovies, formattedMovie]);
             }}
             disabled={disabledWatchlistButton}
           >
@@ -70,9 +63,9 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
 
           <Button
             onClick={() => {
-              addMovieToWatched(movie);
+              console.log("Movie added to watched movies!");
             }}
-            disabled={disabledWatchedButton}
+            disabled={true}
           >
             Add to Watched
           </Button>
