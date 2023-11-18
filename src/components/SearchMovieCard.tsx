@@ -14,18 +14,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { user } = useContext(UserContext);
 
-  const { addMovieToWatchList, addMovieToWatched, watchlist, watched } =
-    useContext(MoviesContext);
-
-  const addMovie = (movie: MovieInterface) => {
-    addMovieToWatchList(movie);
-    addMovieToDataBase(movie);
-  };
-
-  const addMovieToDataBase = (movie: MovieInterface) => {
-    console.log(movie);
-    postMovie(user.id, movie, getAccessTokenSilently);
-  };
+  const { addMovieToWatchList, watchlist, watched } = useContext(MoviesContext);
 
   const alreadySavedMovie = watchlist.find(
     (movieFromWatchlist) => movieFromWatchlist.id === movie.id
@@ -64,8 +53,15 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
         <div className="controls">
           <Button
             onClick={() => {
-              addMovie(movie);
-              addMovieToWatchList(movie);
+              const formattedMovie = {
+                tmdb_id: movie.id,
+                name: movie.title,
+                score: movie.vote_average,
+                tmdb_genresIds: movie.genre_ids,
+                poster_image: `https://themoviedb.org/t/p/w200${movie.poster_path}`,
+                userId: user.id,
+              };
+              postMovie(user.id, formattedMovie, getAccessTokenSilently);
             }}
             disabled={disabledWatchlistButton}
           >

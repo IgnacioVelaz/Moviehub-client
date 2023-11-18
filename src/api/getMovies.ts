@@ -1,9 +1,7 @@
 import axios from "axios";
 
-const postMovie = async (userId: string | number, data: any, getToken: any) => {
+const getMoviesByUserId = async (userId: string | number, getToken: any) => {
   const token = await getToken();
-  const movieData = data;
-
   const config = {
     headers: {
       authorization: `Bearer ${token}`,
@@ -11,13 +9,12 @@ const postMovie = async (userId: string | number, data: any, getToken: any) => {
     },
   };
 
-  const response = await axios.post(
+  const response = await axios.get(
     `http://localhost:8081/movies/${userId}`,
-    movieData,
     config
   );
 
-  return response.data;
+  return response;
 };
 
-export default postMovie;
+export default getMoviesByUserId;

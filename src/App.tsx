@@ -12,7 +12,7 @@ const {
   VITE_AUTH0_AUDIENCE: audience,
 } = import.meta.env;
 
-const queryClient = new QueryClient();
+export const queryClient = new QueryClient();
 
 const redirectUri: string = window.location.origin + "/watchlist";
 

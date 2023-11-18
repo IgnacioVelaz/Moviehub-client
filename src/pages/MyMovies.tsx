@@ -1,15 +1,30 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
 import Container from "../components/Container";
 import MovieCard from "../components/MovieCard";
 import { UserContext } from "../contexts/UserContext";
+import getMoviesByUserId from "../api/getMovies";
+import { useAuth0 } from "@auth0/auth0-react";
 
 const MyMovies = () => {
+  const { watchlist, addUserMoviesToWatchList } = useContext(MoviesContext);
   const { user } = useContext(UserContext);
-  const { watchlist } = useContext(MoviesContext);
-  console.log("this is the watchlist:", watchlist);
-  console.log("Watchlist first thing:", watchlist[0]);
-  console.log("Watchlist second thing:", watchlist[1]);
+  const { getAccessTokenSilently } = useAuth0();
+  console.log("USER", user);
+
+  useEffect(() => {
+    if (user.id) {
+      const getMovies = async () => {
+        const response = await getMoviesByUserId(
+          user.id,
+          getAccessTokenSilently
+        );
+        console.log("RESPONSE", response);
+        addUserMoviesToWatchList(response.data.movies);
+      };
+      getMovies();
+    }
+  }, [user]);
 
   return (
     <div className="p-8">
@@ -20,7 +35,12 @@ const MyMovies = () => {
         {watchlist && watchlist.length > 0 ? (
           <div className="grid grid-cols-3 gap-8 md:grid-cols-4 lg:grid-cols-5">
             {watchlist.map((movie) => (
-              <MovieCard movie={movie} type={"watchlist"} key={movie.id} />
+              <MovieCard
+                movie={movie}
+                type={"watchlist"}
+                key={movie.id}
+                userId={user.id}
+              />
             ))}
           </div>
         ) : (

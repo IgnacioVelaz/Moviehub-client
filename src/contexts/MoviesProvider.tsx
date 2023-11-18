@@ -12,7 +12,10 @@ export const MoviesProvider: FC<MoviesProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(MoviesReducer, initialState);
 
   const addMovieToWatchList = (movie: MovieInterface) => {
-    dispatch({ type: "ADD_MOVIE_TO_WATCHLIST", payload: movie });
+    dispatch({
+      type: "ADD_MOVIE_TO_WATCHLIST",
+      payload: movie,
+    });
   };
 
   const addUserMoviesToWatchList = (userMovies: MovieInterfaceDB[]) => {

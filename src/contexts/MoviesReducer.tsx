@@ -11,7 +11,7 @@ export const MoviesReducer = (state: any, action: any) => {
       return {
         ...state,
         watchlist: state.watchlist.filter(
-          (movie: MovieInterface) => movie.id !== Number(action.payload)
+          (movieId: string | number) => movieId !== action.payload
         ),
       };
     case "ADD_MOVIE_TO_WATCHED":
