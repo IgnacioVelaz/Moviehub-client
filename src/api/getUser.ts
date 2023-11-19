@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useContext, useEffect } from "react";
 import { UserContext } from "../contexts/UserContext";
@@ -17,11 +17,13 @@ export const useUserQuery = () => {
   const { user, isAuthenticated } = useAuth0();
   const { setIsLogged, setUser } = useContext(UserContext);
 
-  const queryClient = useQueryClient();
-
   const { data, isLoading } = useQuery({
     queryKey: ["user"],
-    queryFn: () => getUserByEmail(user.email, user.name),
+    queryFn: () => {
+      return (
+        user && user.email && user.name && getUserByEmail(user.email, user.name)
+      );
+    },
     enabled: isAuthenticated,
   });
 
