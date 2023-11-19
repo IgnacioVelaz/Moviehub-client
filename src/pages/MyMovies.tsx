@@ -4,11 +4,11 @@ import MovieCard from "../components/MovieCard";
 import { UserContext } from "../contexts/UserContext";
 import getMoviesByUserId from "../api/getMovies";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MoviesContext2 } from "../contexts/MoviesContext";
+import { MoviesContext } from "../contexts/MoviesContext";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 const MyMovies = () => {
-  const { movies, setMovies } = useContext(MoviesContext2);
+  const { movies, setMovies } = useContext(MoviesContext);
   const { user } = useContext(UserContext);
   const { getAccessTokenSilently } = useAuth0();
   console.log("USER", user);

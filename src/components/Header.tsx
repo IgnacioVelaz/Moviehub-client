@@ -2,13 +2,10 @@ import { Link } from "react-router-dom";
 import Container from "./Container";
 import Button from "./Buttons";
 import { useAuth0 } from "@auth0/auth0-react";
-import { useUserQuery } from "../api/getUser";
+import UserData from "./UserData";
 
 const Header = () => {
   const { logout } = useAuth0();
-  const { user, isLoading } = useUserQuery();
-
-  if (isLoading) return <p>Loading..</p>;
 
   return (
     <header className="bg-primary text-white">
@@ -32,7 +29,7 @@ const Header = () => {
             <li>
               <button onClick={() => logout()}>Logout</button>
             </li>
-            <div>{isLoading ? <p>Loading...</p> : user?.name}</div>
+            <UserData />
           </ul>
         </div>
       </Container>

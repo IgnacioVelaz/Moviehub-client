@@ -1,5 +1,4 @@
 import RouterPaths from "./routes/RouterPaths.routes";
-import { MoviesProvider } from "./contexts/MoviesProvider";
 import { Auth0Provider } from "@auth0/auth0-react";
 3;
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";

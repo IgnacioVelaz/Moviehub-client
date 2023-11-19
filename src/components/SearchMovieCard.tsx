@@ -4,7 +4,7 @@ import Button from "./Buttons";
 import postMovie from "../api/postMovie";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../contexts/UserContext";
-import { MoviesContext2 } from "../contexts/MoviesContext";
+import { MoviesContext } from "../contexts/MoviesContext";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 type SearchMovieCardProps = {
@@ -14,7 +14,7 @@ type SearchMovieCardProps = {
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { user } = useContext(UserContext);
-  const { movies, setMovies } = useContext(MoviesContext2);
+  const { movies, setMovies } = useContext(MoviesContext);
 
   const alreadySavedMovie = movies.find(
     (movieFromWatchlist) => movieFromWatchlist.tmdb_id === movie.id
@@ -22,18 +22,18 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
 
   const disabledWatchlistButton = alreadySavedMovie ? true : false;
 
+  const moviePoster = movie.poster_path
+    ? `https://themoviedb.org/t/p/w200${movie.poster_path}`
+    : "https://res.cloudinary.com/dsinhkkv3/image/upload/c_thumb,w_200,g_face/v1700430158/unavailable_g9q1zp.jpg";
+
   return (
     <div className="flex mb-5">
       <div className="poster-wrapper">
-        {movie.poster_path ? (
-          <img
-            src={`https://themoviedb.org/t/p/w200${movie.poster_path}`}
-            alt={`${movie.title} Poster`}
-            className="w-20 h-auto bg-[#dbdada] rounded-md mr-4 text-transparent"
-          />
-        ) : (
-          <div className="w-20 h-auto bg-[#dbdada] rounded-md mr-4 text-transparent"></div>
-        )}
+        <img
+          src={moviePoster}
+          alt={`${movie.title} Poster`}
+          className="w-20 h-auto bg-[#dbdada] rounded-md mr-4 text-transparent"
+        />
       </div>
       <div className="flex flex-col justify-between">
         <div className="header">
@@ -51,7 +51,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 name: movie.title,
                 score: movie.vote_average,
                 tmdb_genresIds: movie.genre_ids,
-                poster_image: `https://themoviedb.org/t/p/w200${movie.poster_path}`,
+                poster_image: moviePoster,
                 userId: user.id,
                 type: "watchlist",
               };
@@ -73,7 +73,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 name: movie.title,
                 score: movie.vote_average,
                 tmdb_genresIds: movie.genre_ids,
-                poster_image: `https://themoviedb.org/t/p/w200${movie.poster_path}`,
+                poster_image: moviePoster,
                 userId: user.id,
                 type: "watched",
               };

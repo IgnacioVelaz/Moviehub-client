@@ -25,7 +25,7 @@ const initialState = {
   setWatched: () => {},
 };
 
-export const MoviesContext2 = createContext<MoviesContextType>(initialState);
+export const MoviesContext = createContext<MoviesContextType>(initialState);
 
 type MoviesContextProviderProps = {
   children: ReactNode;
@@ -38,8 +38,8 @@ export const MovieContextProvider = ({
   const [watched, setWatched] = useState([]);
 
   return (
-    <MoviesContext2.Provider value={{ movies, setMovies, watched, setWatched }}>
+    <MoviesContext.Provider value={{ movies, setMovies, watched, setWatched }}>
       {children}
-    </MoviesContext2.Provider>
+    </MoviesContext.Provider>
   );
 };

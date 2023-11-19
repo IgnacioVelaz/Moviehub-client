@@ -6,7 +6,7 @@ import { ControlButton } from "./Buttons";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 import deleteMovieById from "../api/deleteMovie";
 import { useAuth0 } from "@auth0/auth0-react";
-import { MoviesContext2 } from "../contexts/MoviesContext";
+import { MoviesContext } from "../contexts/MoviesContext";
 import editMovieType from "../api/updateMovie";
 
 type MovieControlsProps = {
@@ -18,8 +18,8 @@ type MovieControlsProps = {
 const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
   console.log("MOVIE:", movie);
   const { getAccessTokenSilently } = useAuth0();
-  const { setMovies } = useContext(MoviesContext2);
-  const { setWatched } = useContext(MoviesContext2);
+  const { setMovies } = useContext(MoviesContext);
+  const { setWatched } = useContext(MoviesContext);
 
   console.log(movie, type);
 

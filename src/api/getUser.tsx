@@ -17,14 +17,14 @@ export const useUserQuery = () => {
   const { user, isAuthenticated } = useAuth0();
   const { setIsLogged, setUser } = useContext(UserContext);
 
-  const { data, isLoading } = useQuery({
+  const { data, isLoading, error } = useQuery({
     queryKey: ["user"],
     queryFn: () => {
       return (
         user && user.email && user.name && getUserByEmail(user.email, user.name)
       );
     },
-    enabled: isAuthenticated,
+    enabled: user != null,
   });
 
   useEffect(() => {
@@ -45,5 +45,6 @@ export const useUserQuery = () => {
     user,
     isLoading,
     data,
+    error,
   };
 };
