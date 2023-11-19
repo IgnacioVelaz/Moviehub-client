@@ -6,7 +6,7 @@ import { useUserQuery } from "../api/getUser";
 
 const Header = () => {
   const { logout } = useAuth0();
-  const { user, isLoading, data } = useUserQuery();
+  const { user, isLoading } = useUserQuery();
 
   if (isLoading) return <p>Loading..</p>;
 

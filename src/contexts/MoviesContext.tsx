@@ -9,9 +9,13 @@ import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 type MoviesContextType = {
   movies: MovieInterfaceDB[];
-  setMovies: Dispatch<SetStateAction<MovieInterfaceDB[]>>;
+  setMovies:
+    | Dispatch<SetStateAction<MovieInterfaceDB[]>>
+    | Dispatch<SetStateAction<never[]>>;
   watched: MovieInterfaceDB[];
-  setWatched: Dispatch<SetStateAction<MovieInterfaceDB[]>>;
+  setWatched:
+    | Dispatch<SetStateAction<MovieInterfaceDB[]>>
+    | Dispatch<SetStateAction<never[]>>;
 };
 
 const initialState = {

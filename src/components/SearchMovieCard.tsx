@@ -5,6 +5,7 @@ import postMovie from "../api/postMovie";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../contexts/UserContext";
 import { MoviesContext2 } from "../contexts/MoviesContext";
+import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 type SearchMovieCardProps = {
   movie: MovieInterface;
@@ -55,7 +56,10 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 type: "watchlist",
               };
               postMovie(user.id, formattedMovie, getAccessTokenSilently);
-              setMovies((prevMovies) => [...prevMovies, formattedMovie]);
+              setMovies((prevMovies: MovieInterfaceDB) => [
+                ...prevMovies,
+                formattedMovie,
+              ]);
             }}
             disabled={disabledWatchlistButton}
           >

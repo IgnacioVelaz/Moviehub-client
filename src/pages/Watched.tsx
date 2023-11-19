@@ -5,6 +5,7 @@ import { UserContext } from "../contexts/UserContext";
 import getMoviesByUserId from "../api/getMovies";
 import { useAuth0 } from "@auth0/auth0-react";
 import { MoviesContext2 } from "../contexts/MoviesContext";
+import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 const MyMovies = () => {
   const { watched, setWatched } = useContext(MoviesContext2);
@@ -20,7 +21,7 @@ const MyMovies = () => {
           getAccessTokenSilently
         );
         const watchedMovies = response.data.movies.filter(
-          (movie) => movie.type === "watched"
+          (movie: MovieInterfaceDB) => movie.type === "watched"
         );
         setWatched(watchedMovies);
       };
