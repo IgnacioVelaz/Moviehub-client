@@ -7,7 +7,6 @@ const editMovieType = async (
 ) => {
   const token = await getToken();
   const movieType = { type: data };
-  console.log("MOVIE TYPE:", movieType);
 
   const config = {
     headers: {

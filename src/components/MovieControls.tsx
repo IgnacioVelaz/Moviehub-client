@@ -16,14 +16,10 @@ type MovieControlsProps = {
 };
 
 const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
-  console.log("MOVIE:", movie);
   const { getAccessTokenSilently } = useAuth0();
   const { setMovies } = useContext(MoviesContext);
   const { setWatched } = useContext(MoviesContext);
 
-  console.log(movie, type);
-
-  console.log(movie);
   return (
     <div className="absolute bottom-5 inline left-1/2 -translate-x-1/2 bg-black/50 rounded-md p-1 border border-white/60 opacity-0 transition-all group-hover:opacity-100">
       {type == "watchlist" && (

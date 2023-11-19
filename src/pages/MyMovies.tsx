@@ -1,33 +1,25 @@
-import { useContext, useEffect } from "react";
 import Container from "../components/Container";
 import MovieCard from "../components/MovieCard";
-import { UserContext } from "../contexts/UserContext";
-import getMoviesByUserId from "../api/getMovies";
-import { useAuth0 } from "@auth0/auth0-react";
+import { useContext, useEffect } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
+import { UserContext } from "../contexts/UserContext";
+import { useGetMoviesQuery } from "../api/getMovies";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
 const MyMovies = () => {
-  const { movies, setMovies } = useContext(MoviesContext);
+  const { setMovies, movies: moviesFromContext } = useContext(MoviesContext);
   const { user } = useContext(UserContext);
-  const { getAccessTokenSilently } = useAuth0();
-  console.log("USER", user);
+
+  const { movies, status, error } = useGetMoviesQuery();
 
   useEffect(() => {
-    if (user.id) {
-      const getMovies = async () => {
-        const response = await getMoviesByUserId(
-          user.id,
-          getAccessTokenSilently
-        );
-        const watchListMovies = response.data.movies.filter(
-          (movie: MovieInterfaceDB) => movie.type === "watchlist"
-        );
-        setMovies(watchListMovies);
-      };
-      getMovies();
+    if (status === "success" && movies) {
+      const watchListMovies = movies.data.movies.filter(
+        (movie: MovieInterfaceDB) => movie.type === "watchlist"
+      );
+      setMovies(watchListMovies);
     }
-  }, [user]);
+  }, [status, movies, setMovies]);
 
   return (
     <div className="p-8">
@@ -35,9 +27,13 @@ const MyMovies = () => {
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-primary">My Movies</h1>
         </div>
-        {movies && movies.length > 0 ? (
+        {status === "pending" ? (
+          <p>Loading...</p>
+        ) : status === "error" ? (
+          <p>Error: {error?.message}</p>
+        ) : moviesFromContext && moviesFromContext.length > 0 ? (
           <div className="grid grid-cols-3 gap-8 md:grid-cols-4 lg:grid-cols-5">
-            {movies.map((movie) => (
+            {moviesFromContext.map((movie) => (
               <MovieCard
                 movie={movie}
                 type={"watchlist"}
@@ -55,4 +51,5 @@ const MyMovies = () => {
     </div>
   );
 };
+
 export default MyMovies;

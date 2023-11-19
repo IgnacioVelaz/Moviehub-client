@@ -11,7 +11,6 @@ const MyMovies = () => {
   const { watched, setWatched } = useContext(MoviesContext);
   const { user } = useContext(UserContext);
   const { getAccessTokenSilently } = useAuth0();
-  console.log("USER", user);
 
   useEffect(() => {
     if (user.id) {
