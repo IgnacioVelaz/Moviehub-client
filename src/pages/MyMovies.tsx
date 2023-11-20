@@ -5,6 +5,7 @@ import { MoviesContext } from "../contexts/MoviesContext";
 import { UserContext } from "../contexts/UserContext";
 import { useGetMoviesQuery } from "../api/getMovies";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
+import LoadingSpinner from "../components/LoadingSpinner";
 
 const MyMovies = () => {
   const { setMovies, movies: moviesFromContext } = useContext(MoviesContext);
@@ -28,7 +29,7 @@ const MyMovies = () => {
           <h1 className="text-primary">My Movies</h1>
         </div>
         {status === "pending" ? (
-          <p>Loading...</p>
+          <LoadingSpinner />
         ) : status === "error" ? (
           <p>Error: {error?.message}</p>
         ) : moviesFromContext && moviesFromContext.length > 0 ? (

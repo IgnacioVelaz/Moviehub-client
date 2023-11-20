@@ -1,11 +1,11 @@
 import { FC, useContext } from "react";
-import { MovieInterface } from "../interfaces/MovieInterface";
 import Button from "./Buttons";
-import postMovie from "../api/postMovie";
 import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../contexts/UserContext";
 import { MoviesContext } from "../contexts/MoviesContext";
-import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
+import { usePostMovieMutation } from "../api/postMovie";
+import { MovieInterface } from "../interfaces/MovieInterface";
+import { useQueryClient } from "@tanstack/react-query";
 
 type SearchMovieCardProps = {
   movie: MovieInterface;
@@ -14,7 +14,13 @@ type SearchMovieCardProps = {
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
   const { getAccessTokenSilently } = useAuth0();
   const { user } = useContext(UserContext);
-  const { movies, setMovies } = useContext(MoviesContext);
+  const { movies: moviesFromContext, setMovies } = useContext(MoviesContext);
+
+  const queryClient = useQueryClient();
+
+  const { mutate, status } = usePostMovieMutation();
+
+  const movies = queryClient.getQueryData(["movies", user?.id]).data.movies;
 
   const alreadySavedMovie = movies.find(
     (movieFromWatchlist) => movieFromWatchlist.tmdb_id === movie.id
@@ -55,11 +61,8 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 userId: user.id,
                 type: "watchlist",
               };
-              postMovie(user.id, formattedMovie, getAccessTokenSilently);
-              setMovies((prevMovies: MovieInterfaceDB) => [
-                ...prevMovies,
-                formattedMovie,
-              ]);
+              mutate(formattedMovie);
+              setMovies((prevMovies) => [...prevMovies, formattedMovie]);
             }}
             disabled={disabledWatchlistButton}
           >
@@ -77,7 +80,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
                 userId: user.id,
                 type: "watched",
               };
-              postMovie(user.id, formattedMovie, getAccessTokenSilently);
+              mutate(formattedMovie);
               setMovies((prevMovies) => [...prevMovies, formattedMovie]);
             }}
             disabled={disabledWatchlistButton}

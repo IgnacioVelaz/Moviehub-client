@@ -2,7 +2,7 @@ import axios from "axios";
 import { useContext } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { useQuery } from "@tanstack/react-query";
-import { GetTokenSilentlyOptions, useAuth0 } from "@auth0/auth0-react";
+import { useAuth0 } from "@auth0/auth0-react";
 
 export const getMoviesByUserId = async (userId: string | number, getToken) => {
   const token = await getToken();
