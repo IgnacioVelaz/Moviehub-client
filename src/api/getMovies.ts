@@ -4,7 +4,10 @@ import { UserContext } from "../contexts/UserContext";
 import { useQuery } from "@tanstack/react-query";
 import { useAuth0 } from "@auth0/auth0-react";
 
-export const getMoviesByUserId = async (userId: string | number, getToken) => {
+export const getMoviesByUserId = async (
+  userId: string | number,
+  getToken: any
+) => {
   const token = await getToken();
   const config = {
     headers: {
@@ -14,7 +17,7 @@ export const getMoviesByUserId = async (userId: string | number, getToken) => {
   };
 
   const response = await axios.get(
-    `http://localhost:8081/movies/${userId}`,
+    `${import.meta.env.VITE_API_URL}/movies/${userId}`,
     config
   );
 

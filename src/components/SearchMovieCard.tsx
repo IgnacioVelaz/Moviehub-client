@@ -1,6 +1,5 @@
 import { FC, useContext } from "react";
 import Button from "./Buttons";
-import { useAuth0 } from "@auth0/auth0-react";
 import { UserContext } from "../contexts/UserContext";
 import { MoviesContext } from "../contexts/MoviesContext";
 import { usePostMovieMutation } from "../api/postMovie";
@@ -12,7 +11,6 @@ type SearchMovieCardProps = {
 };
 
 const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
-  const { getAccessTokenSilently } = useAuth0();
   const { user } = useContext(UserContext);
   const { movies: moviesFromContext, setMovies } = useContext(MoviesContext);
 
@@ -22,7 +20,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
 
   const movies = queryClient.getQueryData(["movies", user?.id]).data.movies;
 
-  const alreadySavedMovie = movies.find(
+  const alreadySavedMovie = moviesFromContext.find(
     (movieFromWatchlist) => movieFromWatchlist.tmdb_id === movie.id
   );
 
@@ -34,7 +32,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
 
   return (
     <div className="flex mb-5">
-      <div className="poster-wrapper">
+      <div>
         <img
           src={moviePoster}
           alt={`${movie.title} Poster`}
@@ -42,14 +40,14 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
         />
       </div>
       <div className="flex flex-col justify-between">
-        <div className="header">
+        <div>
           <h3 className="text-xl font-semibold">{movie.title}</h3>
           <h4 className="text-xl font-light text-primary">
             {movie.release_date ? movie.release_date.substring(0, 4) : "-"}
           </h4>
         </div>
 
-        <div className="controls">
+        <div className="flex gap-4">
           <Button
             onClick={() => {
               const formattedMovie = {
@@ -66,7 +64,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
             }}
             disabled={disabledWatchlistButton}
           >
-            Add to Watchlist
+            {status === "pending" ? "Adding movie..." : "Add to watchlist"}
           </Button>
 
           <Button
@@ -85,7 +83,7 @@ const SearchMovieCard: FC<SearchMovieCardProps> = ({ movie }) => {
             }}
             disabled={disabledWatchlistButton}
           >
-            Add to Watched
+            {status === "pending" ? "Adding movie..." : "Add to watched"}
           </Button>
         </div>
       </div>

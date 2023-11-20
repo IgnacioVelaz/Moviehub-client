@@ -16,7 +16,7 @@ const editMovieType = async (
   };
 
   const response = await axios.patch(
-    `http://localhost:8081/movies/${movieId}`,
+    `${import.meta.env.VITE_API_URL}/movies/${movieId}`,
     movieType,
     config
   );

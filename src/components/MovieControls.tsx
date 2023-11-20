@@ -27,8 +27,10 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
           <ControlButton
             onClick={() => {
               editMovieType(movie.id, "watched", getAccessTokenSilently);
-              setMovies((prevMovies) => {
-                return prevMovies.filter((item) => item.id !== movie.id);
+              setMovies((prevMovies: any) => {
+                return prevMovies.filter(
+                  (item: MovieInterfaceDB) => item.id !== movie.id
+                );
               });
             }}
           >
@@ -38,8 +40,10 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
           <ControlButton
             onClick={() => {
               deleteMovieById(movie.id, getAccessTokenSilently, userId);
-              setMovies((prevMovies) => {
-                return prevMovies.filter((item) => item.id !== movie.id);
+              setMovies((prevMovies: any) => {
+                return prevMovies.filter(
+                  (item: MovieInterfaceDB) => item.id !== movie.id
+                );
               });
             }}
           >
@@ -53,8 +57,10 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
           <ControlButton
             onClick={() => {
               editMovieType(movie.id, "watchlist", getAccessTokenSilently);
-              setWatched((prevWatched) => {
-                return prevWatched.filter((item) => item.id !== movie.id);
+              setWatched((prevWatched: any) => {
+                return prevWatched.filter(
+                  (item: MovieInterfaceDB) => item.id !== movie.id
+                );
               });
             }}
           >
@@ -65,8 +71,10 @@ const MovieControls: FC<MovieControlsProps> = ({ movie, type, userId }) => {
             onClick={() => {
               deleteMovieById(movie.id, getAccessTokenSilently, userId);
 
-              setWatched((prevWatched) => {
-                return prevWatched.filter((item) => item.id !== movie.id);
+              setWatched((prevWatched: any) => {
+                return prevWatched.filter(
+                  (item: MovieInterfaceDB) => item.id !== movie.id
+                );
               });
             }}
           >

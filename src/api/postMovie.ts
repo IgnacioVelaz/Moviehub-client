@@ -18,7 +18,7 @@ const postMovie = async (userId: string | number, data: any, getToken: any) => {
   };
 
   const response = await axios.post(
-    `http://localhost:8081/movies/${userId}`,
+    `${import.meta.env.VITE_API_URL}/movies/${userId}`,
     movieData,
     config
   );
@@ -41,7 +41,7 @@ export const usePostMovieMutation = () => {
         ["movies", user?.id],
         (prevMovies: MovieInterfaceDB[]) => {
           const updatedMovies = [...prevMovies, newMovie];
-          queryClient.invalidateQueries(["movies", user?.id]);
+          queryClient.invalidateQueries({ queryKey: ["movies", user?.id] });
           return updatedMovies;
         }
       );

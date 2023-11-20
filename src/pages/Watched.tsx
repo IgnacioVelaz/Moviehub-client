@@ -7,10 +7,11 @@ import { useAuth0 } from "@auth0/auth0-react";
 import { MoviesContext } from "../contexts/MoviesContext";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 
-const MyMovies = () => {
+const Watched = () => {
   const { watched, setWatched } = useContext(MoviesContext);
   const { user } = useContext(UserContext);
   const { getAccessTokenSilently } = useAuth0();
+  console.log("USER", user);
 
   useEffect(() => {
     if (user.id) {
@@ -54,4 +55,4 @@ const MyMovies = () => {
     </div>
   );
 };
-export default MyMovies;
+export default Watched;

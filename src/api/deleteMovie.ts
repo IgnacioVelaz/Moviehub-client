@@ -14,7 +14,7 @@ const deleteMovieById = async (
   };
 
   const response = await axios.delete(
-    `http://localhost:8081/movies/${userId}/${movieId}`,
+    `${import.meta.env.VITE_API_URL}/movies/${userId}/${movieId}`,
     config
   );
 

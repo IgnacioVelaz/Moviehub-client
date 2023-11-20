@@ -7,7 +7,7 @@ const Login = () => {
 
   return (
     <div>
-      <div className="bg-primary flex justify-center p-4 mb-12">
+      <div className="bg-primary flex justify-center p-4 mb-24">
         <img
           src="https://res.cloudinary.com/dsinhkkv3/image/upload/v1700480644/Artboard_1_d1n7j7.png"
           alt="moviehub logo"
@@ -17,12 +17,12 @@ const Login = () => {
       <Container>
         <div className="grid md:grid-cols-2 items-center gap-6 mb-16">
           <div className="flex flex-col gap-4 text-center">
-            <p className="text-3xl">
+            <p className="text-2xl">
               Unlock Movie Magic with MovieHub, Your Key to Effortless Movie
               Tracking.
             </p>
             <Button onClick={(): Promise<void> => loginWithRedirect()}>
-              Join for free!
+              <span className="text-3xl">Join for free</span>
             </Button>
           </div>
           <img
