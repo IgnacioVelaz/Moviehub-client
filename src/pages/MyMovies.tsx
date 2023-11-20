@@ -6,6 +6,8 @@ import { UserContext } from "../contexts/UserContext";
 import { useGetMoviesQuery } from "../api/getMovies";
 import { MovieInterfaceDB } from "../interfaces/MovieInterfaceDB";
 import LoadingSpinner from "../components/LoadingSpinner";
+import { Link } from "react-router-dom";
+import Button from "../components/Buttons";
 
 const MyMovies = () => {
   const { setMovies, movies: moviesFromContext } = useContext(MoviesContext);
@@ -26,7 +28,9 @@ const MyMovies = () => {
     <div className="p-8">
       <Container>
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-primary">My Movies</h1>
+          <h1 className="text-blue text-2xl uppercase w-full text-center p-10">
+            My Watchlist
+          </h1>
         </div>
         {status === "pending" ? (
           <LoadingSpinner />
@@ -44,9 +48,18 @@ const MyMovies = () => {
             ))}
           </div>
         ) : (
-          <h2 className="text-gray-500 text-5xl text-center">
-            There are no movies in your watchlist
-          </h2>
+          <>
+            <h2 className="text-gray-500 text-3xl text-center mb-40">
+              There are no movies in your watchlist. Go find some!
+            </h2>
+            <div className="text-center">
+              <Link to="/add">
+                <Button>
+                  <span className="text-3xl">Add Movie</span>
+                </Button>
+              </Link>
+            </div>
+          </>
         )}
       </Container>
     </div>

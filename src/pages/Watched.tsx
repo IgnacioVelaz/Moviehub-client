@@ -33,7 +33,9 @@ const Watched = () => {
     <div className="p-8">
       <Container>
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-primary">My Movies</h1>
+          <h1 className="text-blue text-2xl uppercase w-full text-center p-10">
+            Watched Movies
+          </h1>
         </div>
         {watched && watched.length > 0 ? (
           <div className="grid grid-cols-3 gap-8 md:grid-cols-4 lg:grid-cols-5">
@@ -46,11 +48,7 @@ const Watched = () => {
               />
             ))}
           </div>
-        ) : (
-          <h2 className="text-gray-500 text-5xl text-center">
-            Come back when you have watched some movies!
-          </h2>
-        )}
+        ) : null}
       </Container>
     </div>
   );
